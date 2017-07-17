@@ -6,8 +6,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.sumon.flappybird.FlappyBird;
+import com.sumon.flappybird.utils.MyPreference;
 import com.sun.org.apache.xpath.internal.operations.String;
 
 /**
@@ -25,6 +28,9 @@ public class MenuState extends State {
         bg = new Texture("bg.png");
         playBtn = new Texture("playbtn.png");
         font = new BitmapFont();
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        font.setColor(Color.WHITE);
+
     }
 
     @Override
@@ -46,18 +52,10 @@ public class MenuState extends State {
         /// need to open sb first
         spriteBatch.begin();
         spriteBatch.draw(bg, 0, 0);
-
         spriteBatch.draw(playBtn, (cam.position.x) - (playBtn.getWidth() / 2), cam.position.y);
-        font.setColor(Color.WHITE);
-
-
-        // We specify the name of the Preferences File
-        Preferences prefs = Gdx.app.getPreferences("PreferenceName");// We store the value 10 with the key of "highScore"
-        prefs.putInteger("highScore", 10);
-        prefs.flush(); // This saves the preferences file.
-
-        font.draw(spriteBatch, "SCORE:" + java.lang.String.valueOf(prefs.getInteger("highScore")), (cam.position.x) - (playBtn.getWidth() / 2), cam.position.y + cam.position.y / 2);
+        font.draw(spriteBatch, "SCORE:" + java.lang.String.valueOf(MyPreference.getHighScore()), (cam.position.x) - (playBtn.getWidth() / 2), cam.position.y + cam.position.y / 2);
         spriteBatch.end();
+
     }
 
     @Override

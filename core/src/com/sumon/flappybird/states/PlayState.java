@@ -10,6 +10,9 @@ import com.badlogic.gdx.utils.Array;
 import com.sumon.flappybird.FlappyBird;
 import com.sumon.flappybird.sprites.Bird;
 import com.sumon.flappybird.sprites.Tube;
+import com.sumon.flappybird.utils.MyPreference;
+
+import sun.rmi.runtime.Log;
 
 /**
  * Created by Sumon on 5/5/2017.
@@ -33,7 +36,9 @@ public class PlayState extends State {
         cam.setToOrtho(false, FlappyBird.WIDTH / 2, FlappyBird.HEIGHT / 2);
         bg = new Texture("bg.png");
         tubes = new Array<Tube>();
-        font=new BitmapFont();
+        font = new BitmapFont();
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        font.setColor(Color.WHITE);
         ground = new Texture("ground.png");
         groundPos1 = new Vector2(cam.position.x - cam.viewportWidth / 2, GROUND_Y_OFFSET);
         groundPos2 = new Vector2((cam.position.x - cam.viewportWidth / 2) + ground.getWidth(), GROUND_Y_OFFSET);
@@ -49,7 +54,11 @@ public class PlayState extends State {
             bird.jump();
         }
     }
-int score=0;
+
+    int score = 0;
+    int life = 3;
+    int success = 0;
+
     @Override
     public void update(float dt) {
         handleInput();
@@ -61,17 +70,29 @@ int score=0;
             Tube tube = tubes.get(i);
 
             if (cam.position.x - (cam.viewportWidth / 2) > tube.getPosTopTube().x + tube.getTopTube().getWidth()) {
-                score++;
                 tube.reposition(tube.getPosTopTube().x + ((Tube.TUBE_WIDTH + TUBE_SPACING) * TUBE_COUNT));
             }
 
             if (tube.collides(bird.getBounds())) {
+                if(MyPreference.getHighScore()<score){
+                    MyPreference.saveHighScore(score);
+                    score=0;
+                }else {
+                    MyPreference.saveScore(score);
+                    score=0;
+                }
                 gsm.set(new GameOverState(gsm));
+
+            } else {
+                score++;
+
             }
         }
 
-        if (bird.getPosition().y <= ground.getHeight() + GROUND_Y_OFFSET)
+        if (bird.getPosition().y <= ground.getHeight() + GROUND_Y_OFFSET) {
             gsm.set(new GameOverState(gsm));
+        }
+
         cam.update();
     }
 
@@ -87,8 +108,9 @@ int score=0;
         }
         spriteBatch.draw(ground, groundPos1.x, groundPos1.y);
         spriteBatch.draw(ground, groundPos2.x, groundPos2.y);
-        font.setColor(Color.WHITE);
-        font.draw(spriteBatch,"Score: "+String.valueOf(score),0,0);
+        font.draw(spriteBatch, "Score: " + String.valueOf(score), cam.position.x-cam.viewportWidth/2+5, cam.position.y + cam.viewportHeight / 2 - 20);
+//        font.draw(spriteBatch, "Life: " + String.valueOf(life), cam.position.x + cam.viewportWidth/4, cam.position.y + cam.viewportHeight / 2 - 20);
+        System.out.print("score: " + String.valueOf(score));
         spriteBatch.end();
     }
 
@@ -97,7 +119,7 @@ int score=0;
         bg.dispose();
         bird.dispose();
         ground.dispose();
-        for(Tube tube : tubes)
+        for (Tube tube : tubes)
             tube.dispose();
 
         System.out.println("Play State Disposed");
