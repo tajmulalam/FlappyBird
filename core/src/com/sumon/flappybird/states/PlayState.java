@@ -71,29 +71,28 @@ public class PlayState extends State {
 
             if (cam.position.x - (cam.viewportWidth / 2) > tube.getPosTopTube().x + tube.getTopTube().getWidth()) {
                 tube.reposition(tube.getPosTopTube().x + ((Tube.TUBE_WIDTH + TUBE_SPACING) * TUBE_COUNT));
+                score++;
             }
 
             if (tube.collides(bird.getBounds())) {
-                if(MyPreference.getHighScore()<score){
-                    MyPreference.saveHighScore(score);
-                    score=0;
-                }else {
-                    MyPreference.saveScore(score);
-                    score=0;
-                }
-                gsm.set(new GameOverState(gsm));
-
-            } else {
-                score++;
-
+                gameOverDetect();
             }
         }
 
         if (bird.getPosition().y <= ground.getHeight() + GROUND_Y_OFFSET) {
-            gsm.set(new GameOverState(gsm));
+            gameOverDetect();
         }
 
         cam.update();
+    }
+
+    void gameOverDetect() {
+        if (MyPreference.getHighScore() < score) {
+            MyPreference.saveHighScore(score);
+        }
+        MyPreference.saveScore(score);
+        score = 0;
+        gsm.set(new GameOverState(gsm));
     }
 
     @Override
@@ -105,12 +104,14 @@ public class PlayState extends State {
         for (Tube tube : tubes) {
             spriteBatch.draw(tube.getTopTube(), tube.getPosTopTube().x, tube.getPosTopTube().y);
             spriteBatch.draw(tube.getBottomTube(), tube.getPosBottomTube().x, tube.getPosBottomTube().y);
+
+            //System.out.print(" Top:  X "+tube.getPosTopTube().x+tube.getTopTube().getWidth()+" Y "+tube.getPosTopTube().y);
+            //System.out.print(" bird:  X "+bird.getPosition().x+bird.getBird().getRegionWidth()+" Y "+bird.getPosition().y);
+
         }
         spriteBatch.draw(ground, groundPos1.x, groundPos1.y);
         spriteBatch.draw(ground, groundPos2.x, groundPos2.y);
-        font.draw(spriteBatch, "Score: " + String.valueOf(score), cam.position.x-cam.viewportWidth/2+5, cam.position.y + cam.viewportHeight / 2 - 20);
-//        font.draw(spriteBatch, "Life: " + String.valueOf(life), cam.position.x + cam.viewportWidth/4, cam.position.y + cam.viewportHeight / 2 - 20);
-        System.out.print("score: " + String.valueOf(score));
+        font.draw(spriteBatch, "Score: " + String.valueOf(score), cam.position.x - cam.viewportWidth / 2 + 5, cam.position.y + cam.viewportHeight / 2 - 20);
         spriteBatch.end();
     }
 
