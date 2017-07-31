@@ -11,6 +11,7 @@ import com.sumon.flappybird.FlappyBird;
 import com.sumon.flappybird.sprites.Bird;
 import com.sumon.flappybird.sprites.Tube;
 import com.sumon.flappybird.utils.MyPreference;
+import com.sumon.flappybird.utils.StaticAccess;
 
 import sun.rmi.runtime.Log;
 
@@ -34,12 +35,12 @@ public class PlayState extends State {
         super(gsm);
         bird = new Bird(50, 300);
         cam.setToOrtho(false, FlappyBird.WIDTH / 2, FlappyBird.HEIGHT / 2);
-        bg = new Texture("bg.png");
+        bg = new Texture(StaticAccess.PLAY_STATE_TEXTURE_BG);
         tubes = new Array<Tube>();
         font = new BitmapFont();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.setColor(Color.WHITE);
-        ground = new Texture("ground.png");
+        ground = new Texture(StaticAccess.PLAY_STATE_GROUND);
         groundPos1 = new Vector2(cam.position.x - cam.viewportWidth / 2, GROUND_Y_OFFSET);
         groundPos2 = new Vector2((cam.position.x - cam.viewportWidth / 2) + ground.getWidth(), GROUND_Y_OFFSET);
         for (int i = 1; i <= TUBE_COUNT; i++) {

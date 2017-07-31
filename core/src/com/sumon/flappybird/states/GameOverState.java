@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.sumon.flappybird.FlappyBird;
 import com.sumon.flappybird.utils.MyPreference;
+import com.sumon.flappybird.utils.StaticAccess;
 
 
 /**
@@ -23,8 +24,8 @@ public class GameOverState extends State {
     public GameOverState(GameSateManager gsm) {
         super(gsm);
         cam.setToOrtho(false, FlappyBird.WIDTH / 2, FlappyBird.HEIGHT / 2);
-        bg = new Texture("bg.png");
-        gameOverTexture = new Texture("gameover.png");
+        bg = new Texture(StaticAccess.GAME_OVER_STATE_TEXTURE_BG);
+        gameOverTexture = new Texture(StaticAccess.GAME_OVER_STATE_TEXTURE);
         font = new BitmapFont();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.setColor(Color.WHITE);

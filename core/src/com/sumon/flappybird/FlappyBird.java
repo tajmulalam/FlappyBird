@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.sumon.flappybird.states.GameSateManager;
 import com.sumon.flappybird.states.MenuState;
+import com.sumon.flappybird.utils.StaticAccess;
 
 public class FlappyBird extends ApplicationAdapter {
     public static final int WIDTH = 480;
@@ -23,7 +24,7 @@ public class FlappyBird extends ApplicationAdapter {
     public void create() {
         batch = new SpriteBatch();
         gsm = new GameSateManager();
-        music=Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+        music=Gdx.audio.newMusic(Gdx.files.internal(StaticAccess.FLAPPY_BIRD_MUSIC));
         music.setLooping(true);
         music.setVolume(0.1f);
         music.play();

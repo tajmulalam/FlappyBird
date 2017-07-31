@@ -14,4 +14,17 @@ public class StaticAccess {
 
     //// main game
     public static final String GAME_TITLE = "Flappy Bird";
+
+    //// game Over state
+    public static final String GAME_OVER_STATE_TEXTURE_BG = "bg.png";
+    public static final String GAME_OVER_STATE_TEXTURE = "gameover.png";
+
+    ////Play State
+    public static final String PLAY_STATE_TEXTURE_BG = "bg.png";
+    public static final String PLAY_STATE_GROUND = "ground.png";
+
+    //Flappy Bird
+    public static final String FLAPPY_BIRD_MUSIC = "music.mp3";
+
+
 }
