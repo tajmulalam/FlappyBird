@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.sumon.flappybird.FlappyBird;
 import com.sumon.flappybird.utils.MyPreference;
+import com.sumon.flappybird.utils.StaticAccess;
 import com.sun.org.apache.xpath.internal.operations.String;
 
 /**
@@ -20,13 +21,15 @@ import com.sun.org.apache.xpath.internal.operations.String;
 public class MenuState extends State {
     private Texture bg;
     private Texture playBtn;
+    private Texture logo;
     BitmapFont font;
 
     public MenuState(GameSateManager gsm) {
         super(gsm);
         cam.setToOrtho(false, FlappyBird.WIDTH / 2, FlappyBird.HEIGHT / 2);
-        bg = new Texture("bg.png");
-        playBtn = new Texture("playbtn.png");
+        bg = new Texture(StaticAccess.MENU_STATE_MAIN_BG);
+        playBtn = new Texture(StaticAccess.MENU_STATE_PLAY_BTN);
+        logo = new Texture(StaticAccess.MENU_STATE_LOGO);
         font = new BitmapFont();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.setColor(Color.WHITE);
@@ -53,7 +56,10 @@ public class MenuState extends State {
         spriteBatch.begin();
         spriteBatch.draw(bg, 0, 0);
         spriteBatch.draw(playBtn, (cam.position.x) - (playBtn.getWidth() / 2), cam.position.y);
-        font.draw(spriteBatch, "SCORE:" + java.lang.String.valueOf(MyPreference.getHighScore()), (cam.position.x) - (playBtn.getWidth() / 2), cam.position.y + cam.position.y / 2);
+        font.draw(spriteBatch,
+                StaticAccess.MENU_STATE_HIGH_SCORE + java.lang.String.valueOf(MyPreference.getHighScore()),
+                (cam.position.x) - (playBtn.getWidth() / 2), cam.position.y + cam.position.y / 2);
+        spriteBatch.draw(logo,(cam.position.x) - (logo.getWidth()/2), (cam.position.y + cam.position.y /2)+(cam.position.y*10)/100);
         spriteBatch.end();
 
     }
@@ -62,6 +68,7 @@ public class MenuState extends State {
     protected void dispose() {
         bg.dispose();
         playBtn.dispose();
+        logo.dispose();
 
     }
 

@@ -68,10 +68,9 @@ public class PlayState extends State {
 
         for (int i = 0; i < tubes.size; i++) {
             Tube tube = tubes.get(i);
-
             if (cam.position.x - (cam.viewportWidth / 2) > tube.getPosTopTube().x + tube.getTopTube().getWidth()) {
                 tube.reposition(tube.getPosTopTube().x + ((Tube.TUBE_WIDTH + TUBE_SPACING) * TUBE_COUNT));
-                score++;
+                score=score+5;
             }
 
             if (tube.collides(bird.getBounds())) {
@@ -120,10 +119,10 @@ public class PlayState extends State {
         bg.dispose();
         bird.dispose();
         ground.dispose();
-        for (Tube tube : tubes)
+        for (Tube tube : tubes) {
             tube.dispose();
-
-        System.out.println("Play State Disposed");
+        }
+        //System.out.println("Play State Disposed");
     }
 
     private void updateGround() {

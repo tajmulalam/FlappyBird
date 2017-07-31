@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.sumon.flappybird.FlappyBird;
 import com.sumon.flappybird.utils.MyPreference;
 
-import sun.rmi.runtime.Log;
 
 /**
  * Created by Sumon on 5/4/2017.
