@@ -27,4 +27,5 @@ public class StaticAccess {
     public static final String FLAPPY_BIRD_MUSIC = "music.mp3";
 
 
+    public static final String  GAME_OVER_PLAY_AGAIN = "replay.png";
 }

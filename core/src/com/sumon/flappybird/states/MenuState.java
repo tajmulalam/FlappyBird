@@ -6,9 +6,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.sumon.flappybird.FlappyBird;
 import com.sumon.flappybird.utils.MyPreference;
 import com.sumon.flappybird.utils.StaticAccess;
@@ -24,6 +29,8 @@ public class MenuState extends State {
     private Texture logo;
     BitmapFont font;
 
+    Rectangle plyBtnRect;
+
     public MenuState(GameSateManager gsm) {
         super(gsm);
         cam.setToOrtho(false, FlappyBird.WIDTH / 2, FlappyBird.HEIGHT / 2);
@@ -33,14 +40,20 @@ public class MenuState extends State {
         font = new BitmapFont();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.setColor(Color.WHITE);
+        plyBtnRect = new Rectangle((cam.position.x) - (playBtn.getWidth() / 2), cam.position.y, playBtn.getWidth(), playBtn.getHeight());
 
     }
 
     @Override
     public void handleInput() {
+        Vector3 touchPoint = new Vector3();
         if (Gdx.input.justTouched()) {
-            gsm.set(new PlayState(gsm));
+            cam.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+            if (plyBtnRect.contains(touchPoint.x, touchPoint.y)) {
+                // will be here when balloon will be touched
+                gsm.set(new PlayState(gsm));
 
+            }
         }
     }
 
@@ -59,7 +72,8 @@ public class MenuState extends State {
         font.draw(spriteBatch,
                 StaticAccess.MENU_STATE_HIGH_SCORE + java.lang.String.valueOf(MyPreference.getHighScore()),
                 (cam.position.x) - (playBtn.getWidth() / 2), cam.position.y + cam.position.y / 2);
-        spriteBatch.draw(logo,(cam.position.x) - (logo.getWidth()/2), (cam.position.y + cam.position.y /2)+(cam.position.y*10)/100);
+        spriteBatch.draw(logo, (cam.position.x) - (logo.getWidth() / 2),
+                (cam.position.y + cam.position.y / 2) + (cam.position.y * 10) / 100);
         spriteBatch.end();
 
     }
